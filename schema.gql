@@ -4,8 +4,20 @@
 
 type Account {
   register(input: RegisterInput!): RegisterResponse!
-  input(input: Credentials!): String!
-  allAccounts: [RegisterResponse]
+  login(input: Credentials!): String!
+  allAccounts: [User]
+}
+
+union RegisterResponse = GqlConflictException | User
+
+type GqlConflictException implements GqlError {
+  code: Int!
+  message: String!
+}
+
+interface GqlError {
+  code: Int!
+  message: String!
 }
 
 input RegisterInput {
@@ -20,16 +32,19 @@ input Credentials {
   password: String!
 }
 
-type RegisterResponse {
+type User {
   id: ID!
   firstname: String!
   lastname: String!
+  accountId: String!
+  createdAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Query {
-  accounts: String!
-}
-
-type Mutation {
   accounts: Account!
 }
