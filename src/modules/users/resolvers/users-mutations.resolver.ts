@@ -1,10 +1,10 @@
 import { Args, ResolveField, Resolver } from "@nestjs/graphql";
-import { Account, RegisterResponse, User } from "../dto/type";
 import { Credentials, RegisterInput } from "../dto/input";
+import { RegisterResponse, UsersMutations } from "../dto/type";
 import { UsersService } from "../services/users.service";
 
-@Resolver(() => Account)
-export class AccountsResolver {
+@Resolver(() => UsersMutations)
+export class UsersMutationsResolver {
   constructor(private usersService: UsersService) {}
 
   @ResolveField("register", () => RegisterResponse)
@@ -15,10 +15,5 @@ export class AccountsResolver {
   @ResolveField("login", () => String)
   async login(@Args("input") input: Credentials) {
     return await this.usersService.login(input);
-  }
-
-  @ResolveField("allAccounts", () => [User], { nullable: "itemsAndList" })
-  findAllAccounts() {
-    return this.usersService.findAll();
   }
 }

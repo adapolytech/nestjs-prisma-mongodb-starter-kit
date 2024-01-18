@@ -2,7 +2,7 @@ import { Field, ID, ObjectType, createUnionType } from "@nestjs/graphql";
 import { GqlConflictException } from "src/common/dto/type";
 
 @ObjectType()
-export class Account {}
+export class UsersMutations {}
 
 @ObjectType()
 export class User {

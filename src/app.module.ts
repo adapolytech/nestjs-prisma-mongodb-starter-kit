@@ -1,9 +1,9 @@
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
+import { GraphQLModule } from "@nestjs/graphql";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { modules } from "./modules";
-import { GraphQLModule } from "@nestjs/graphql";
-import { ApolloDriver, ApolloDriverConfig, ApolloFederationDriver, ApolloFederationDriverConfig } from "@nestjs/apollo";
 
 @Module({
   imports: [
@@ -26,4 +26,3 @@ import { ApolloDriver, ApolloDriverConfig, ApolloFederationDriver, ApolloFederat
   providers: [AppService]
 })
 export class AppModule {}
-

@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
+import { User } from "@prisma/client";
 import { PrismaService } from "nestjs-prisma";
 import { Credentials, RegisterInput } from "../dto/input";
 import type { RegisterResponse } from "../dto/type";
-import { User } from "@prisma/client";
 
 @Injectable()
 export class UsersService {
@@ -34,7 +34,7 @@ export class UsersService {
     const { email, password } = input;
     const findAccount = await this.prismaService.account.findFirst({ where: { email }, select: { password: true } });
     if (!findAccount) throw new NotFoundException({ message: "Email or Password incorrect" });
-    return "Bearer Token not implemented";
+    return "Token not yet implemented";
   }
 
   async findAll(): Promise<User[]> {
