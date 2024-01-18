@@ -13,6 +13,6 @@ export class UsersResolver {
 
   @Mutation(() => UsersMutations)
   accounts() {
-    return {}; // all mutations are in field resolver
+    return {}; // Magic with fieldResolver - all mutations are in field resolver
   }
 }
