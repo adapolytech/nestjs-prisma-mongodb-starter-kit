@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, createUnionType } from "@nestjs/graphql";
-import { GqlConflictException } from "src/common/dto/type";
+import { EmailExistError } from "src/common/dto/type";
 
 @ObjectType()
 export class UsersMutations {}
@@ -20,10 +20,10 @@ export class User {
 
 export const RegisterResponse = createUnionType({
   name: "RegisterResponse",
-  types: () => [GqlConflictException, User] as const,
+  types: () => [EmailExistError, User] as const,
   resolveType(value) {
     if (value.code) {
-      return GqlConflictException;
+      return EmailExistError;
     }
     return User;
   }

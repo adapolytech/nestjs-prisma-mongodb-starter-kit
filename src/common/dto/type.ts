@@ -9,13 +9,13 @@ export abstract class GqlError {
 }
 
 @ObjectType({ implements: () => [GqlError] })
-export class GqlConflictException extends GqlError {
+export class EmailExistError extends GqlError {
   code: number;
   message: string;
 }
 
 @ObjectType({ implements: () => [GqlError] })
-export class GqlNotFoundException extends GqlError {
+export class NotFoundError extends GqlError {
   code: number;
   message: string;
 }

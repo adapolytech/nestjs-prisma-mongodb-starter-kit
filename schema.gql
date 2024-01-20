@@ -2,15 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Account {
+type UsersMutations {
   register(input: RegisterInput!): RegisterResponse!
   login(input: Credentials!): String!
-  allAccounts: [User]
 }
 
-union RegisterResponse = GqlConflictException | User
+union RegisterResponse = EmailExistError | User
 
-type GqlConflictException implements GqlError {
+type EmailExistError implements GqlError {
   code: Int!
   message: String!
 }
@@ -46,5 +45,9 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Query {
-  accounts: Account!
+  allAccounts: [User]
+}
+
+type Mutation {
+  accounts: UsersMutations!
 }
