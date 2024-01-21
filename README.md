@@ -4,6 +4,7 @@
 
 - NestJS
 - Prisma
+- GraphQL
 - MongoDB
 
 ## Next step
@@ -14,6 +15,34 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+
+```graphql
+mutation account {
+  accounts {
+    register(
+      input: {
+        firstname: "Nuulest"
+        lastname: "dev"
+        email: "test.dev@gmail.com"
+        password: "secret"
+      }
+    ) {
+      ... on EmailExistError {
+        __typename
+        code
+        message
+      }
+      ... on User {
+        __typename
+        firstname
+        lastname
+        id
+        accountId
+      }
+    }
+  }
+}
+```
 
 ## Installation
 
