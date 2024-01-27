@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, createUnionType } from "@nestjs/graphql";
-import { EmailExistError } from "src/common/dto/type";
+import { EmailExistError } from "src/core/dto/type";
 
 @ObjectType()
 export class UsersMutations {}

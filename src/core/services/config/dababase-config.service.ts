@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PrismaOptionsFactory, PrismaService, PrismaServiceOptions, loggingMiddleware } from "nestjs-prisma";
-import type { EnvSchema } from "../config/schema";
+import type { EnvSchema } from "./config-schema.service";
 
 @Injectable()
 export class DatabaseServiceFactory implements PrismaOptionsFactory {
