@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { User } from "@prisma/client";
 import { PrismaService } from "nestjs-prisma";
 import { digitsCodeGenerator } from "src/core/utils";
+import { MailService } from "src/modules/notifications/services/mail.service";
 import { Credentials, RegisterInput } from "../dto/input";
 import type { RegisterResponse } from "../dto/type";
 
@@ -10,7 +11,8 @@ import type { RegisterResponse } from "../dto/type";
 export class UsersService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly mailService: MailService
   ) {}
 
   async register(input: RegisterInput): Promise<RegisterResponse> {
