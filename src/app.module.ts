@@ -1,6 +1,7 @@
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { CqrsModule } from "@nestjs/cqrs";
 import { GraphQLModule } from "@nestjs/graphql";
 import { JwtModule } from "@nestjs/jwt";
 import { PrismaModule } from "nestjs-prisma";
@@ -26,6 +27,7 @@ import { modules } from "./modules";
         };
       }
     }),
+    CqrsModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, validate: EnvSchemaValidation }),
     PrismaModule.forRootAsync({
       isGlobal: true,

@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { Resend } from "resend";
 import { EnvSchema } from "src/core/services/config/config-schema.service";
 import { RESEND_SERVICE_TOKEN } from "./constants";
+import { NotificationsEventHandlers } from "./cqrs/events/handlers";
 import { MailService } from "./services/mail.service";
 
 @Module({
@@ -15,7 +16,8 @@ import { MailService } from "./services/mail.service";
       },
       inject: [ConfigService]
     },
-    MailService
+    MailService,
+    ...NotificationsEventHandlers
   ],
   exports: [MailService]
 })

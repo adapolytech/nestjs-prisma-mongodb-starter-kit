@@ -4,19 +4,9 @@ import { RESEND_SERVICE_TOKEN } from "../constants";
 
 @Injectable()
 export class MailService {
-  constructor(@Inject(RESEND_SERVICE_TOKEN) private readonly resendService: Resend) {}
+  constructor(@Inject(RESEND_SERVICE_TOKEN) public resendService: Resend) {}
 
-  async accountVerification(firstname: string, mail: string, verificationCode: string) {
-    const returnType = await this.resendService.emails.send({
-      to: mail,
-      html: `
-      <div>
-      Dear <h3>${firstname}, Thank you for signing up</h3>
-      <p>Your account validation code is ${verificationCode}.<br> To confirm your email, please follow the button below</p>
-      </div>`,
-      subject: "Confirm your email",
-      from: "no-reply@resend.dev"
-    });
-    console.log(returnType.data, returnType.error);
+  async sendMail(...input: Parameters<typeof this.resendService.emails.send>) {
+    await this.resendService.emails.send(...input);
   }
 }
