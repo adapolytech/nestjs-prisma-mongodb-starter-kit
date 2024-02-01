@@ -1,1 +1,2 @@
-export * from "./code-generator.utils";
+export * from "./code-generator.util";
+export * from "./password.util";
