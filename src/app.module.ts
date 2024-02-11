@@ -1,4 +1,4 @@
-import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { ApolloDriver } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { CqrsModule } from "@nestjs/cqrs";
@@ -9,24 +9,13 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { EnvSchemaValidation } from "./core/services/config/config-schema.service";
 import { DatabaseServiceFactory } from "./core/services/config/dababase-config.service";
+import { GqlConfigService } from "./core/services/config/gql-config.service";
 import { JwtConfigService } from "./core/services/config/jwt-config.service";
 import { modules } from "./modules";
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: "schema.gql",
-      path: "/graphql",
-      playground: true,
-      formatError(formattedError) {
-        return {
-          message: formattedError.message,
-          code: formattedError?.extensions?.code || "INTERNAL_SERVER_ERROR",
-          status: formattedError?.extensions?.status || 500
-        };
-      }
-    }),
+    GraphQLModule.forRootAsync({ driver: ApolloDriver, useClass: GqlConfigService }),
     CqrsModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, validate: EnvSchemaValidation }),
     PrismaModule.forRootAsync({
