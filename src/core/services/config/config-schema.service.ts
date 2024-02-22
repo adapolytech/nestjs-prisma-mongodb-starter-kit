@@ -6,7 +6,7 @@ const EnvSchema = Type.Object({
   ENV: Type.String(),
   DATABASE_URL: Type.String(),
   JWT_SECRET: Type.String(),
-  RESEND_API_KEY: Type.String(),
+  RESEND_API_KEY: Type.Optional(Type.String()),
   SERVICE_PREFIX: Type.Optional(Type.String({ default: "api" }))
 });
 
