@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Injectable, Post, Query } from "@nestjs/common";
+import { Body, Controller, Injectable, Post, Query } from "@nestjs/common";
 import { UsersService } from "../services/users.service";
 
 @Controller("users")
@@ -13,15 +13,5 @@ export class UsersController {
     @Query("email") email: string
   ) {
     return await this.usersService.verifyEmail(email, token, code);
-  }
-
-  @Get()
-  getUsers() {
-    this.usersService.verifyEmail(
-      "paadama17@gmail.com",
-      "8aM9m9UMGMdq98cK2r9fIJkPFwUP6j6Pqy3UpWigVEdNVZMhhCwzhZpXr5Pe",
-      "894196"
-    );
-    return { data: [{ _id: 1, name: "adama" }] };
   }
 }
