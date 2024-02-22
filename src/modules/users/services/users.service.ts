@@ -1,9 +1,10 @@
 import { HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { EventBus } from "@nestjs/cqrs";
 import { JwtService } from "@nestjs/jwt";
-import { User } from "@prisma/client";
-import { addMinutes } from "date-fns";
+import { $Enums, Account, User } from "@prisma/client";
+import { addMinutes, isAfter } from "date-fns";
 import { PrismaService } from "nestjs-prisma";
+import { DateTime } from "src/core/helpers";
 import { PasswordUtils, digitsCodeGenerator, generateToken } from "src/core/utils";
 import { VerificationEmailSentEvent } from "src/modules/notifications/cqrs/events";
 import { Credentials, RegisterInput } from "../dto/input";
@@ -59,6 +60,32 @@ export class UsersService {
       })
     );
     return createdUser;
+  }
+
+  async verifyEmail(email: string, token: string, verificationCode: string) {
+    const user = await this.prismaService.account.findRaw({
+      filter: {
+        email,
+        "verificationCredentials.token": token,
+        "verificationCredentials.code": verificationCode
+      },
+      options: { projection: { password: false } }
+    });
+    if (!user)
+      return { code: HttpStatus.NOT_FOUND, message: "User not found/Validation code incorrect" };
+    const foundedUser = user as unknown as Account;
+    if (foundedUser.status === $Enums.AccountStatus.VERIFIED)
+      return { code: HttpStatus.NOT_ACCEPTABLE, message: "User already verified" };
+    if (isAfter(DateTime.now(), foundedUser.verificationCredentials.expiresAt))
+      return {
+        code: HttpStatus.BAD_REQUEST,
+        message: "Token expired renewel token verification by resend verification email"
+      };
+    await this.prismaService.account.update({
+      where: { id: foundedUser.id },
+      data: { status: $Enums.AccountStatus.VERIFIED }
+    });
+    return { code: HttpStatus.OK, message: "User email successfully verified!" };
   }
 
   async login(input: Credentials) {
